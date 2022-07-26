@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Cart } from "./pages/Cart";
 import { DeliverySend } from "./pages/DeliverySend";
 import { Home } from "./pages/Home";
-import { MainLayout } from "./pages/layouts/MainLayout";
+import { MainLayout } from "./layouts/MainLayout";
 
 export const Router = () => {
   return (
