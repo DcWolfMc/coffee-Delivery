@@ -1,5 +1,5 @@
 import { Minus, Plus, ShoppingCart } from "phosphor-react";
-import { FunctionComponent, useState } from "react";
+import { FormEvent, FunctionComponent, useState } from "react";
 import { Coffees } from "../../utils/coffees";
 import { InputNumberButton, InputNumberContainer, OrderForm, ProductItemContainer, Tags } from "./styles";
 interface ProductItemProps {
@@ -17,8 +17,12 @@ export const ProductItem: FunctionComponent<ProductItemProps> = ({
   price,
 }) => {
   const [amount, setAmount] = useState<number>(0)
+  const handleSubmit = (event:FormEvent) =>{
+    event.preventDefault();
+
+  }
   return (
-    <ProductItemContainer rotationValue={10} key={image}>
+    <ProductItemContainer key={image}>
       <img src={image} alt="" />
       <Tags>
         {tags?.map((tag) => (
@@ -27,15 +31,15 @@ export const ProductItem: FunctionComponent<ProductItemProps> = ({
       </Tags>
       <strong>{name}</strong>
       <p>{description}</p>
-      <OrderForm>
+      <OrderForm onSubmit={handleSubmit}>
         <span>
           R$
           <b>{price.toFixed(2).toString().replace(".", ",")}</b>
         </span>
         <InputNumberContainer>
-          <InputNumberButton ><Minus size={14} weight='bold' /></InputNumberButton>
+          <InputNumberButton type="button"><Minus size={14} weight='bold' /></InputNumberButton>
           <span>{amount}</span >
-          <InputNumberButton> <Plus size={14} weight='bold'/></InputNumberButton>
+          <InputNumberButton type="button"> <Plus size={14} weight='bold'/></InputNumberButton>
         </InputNumberContainer>
         <button type="submit">
           <ShoppingCart size={22} weight="fill" />

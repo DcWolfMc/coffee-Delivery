@@ -1,5 +1,5 @@
-import { Divide, Minus, Plus, Trash } from "phosphor-react";
-import { CartItemContainer, InputNumberContainer, InputNumberButton, RemoveButton, ActionContainer, ItemDetails, Divider } from "./styles";
+import {  Minus, Plus, Trash } from "phosphor-react";
+import { CartItemContainer, InputNumberContainer, InputNumberButton, RemoveButton, ActionContainer, ItemDetails, } from "./styles";
 import Expresso from "../../assets/coffees/expresso.svg"
 export const CartItem = () => {
   return (
@@ -11,15 +11,15 @@ export const CartItem = () => {
           <span>Expresso Tradicional</span>
           <ActionContainer>
             <InputNumberContainer>
-              <InputNumberButton>
+              <InputNumberButton type="button">
                 <Minus size={14} weight="bold" />
               </InputNumberButton>
               <span>{'3'}</span>
-              <InputNumberButton>
+              <InputNumberButton type="button">
                 <Plus size={14} weight="bold" />
               </InputNumberButton>
             </InputNumberContainer>
-            <RemoveButton>
+            <RemoveButton type="button">
                 <Trash size={16} color="#8047F8"/>
                 Remover
             </RemoveButton>

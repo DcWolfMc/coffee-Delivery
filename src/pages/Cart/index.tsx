@@ -1,4 +1,5 @@
 import { Bank, CreditCard, CurrencyDollar, MapPinLine, Money } from "phosphor-react";
+import { FormEvent } from "react";
 import { CartItem } from "../../components/CartItem";
 import {
   CartContainer,
@@ -13,12 +14,19 @@ import {
   InputTypeTextFlex,
   InputTypeTextSmall,
   CartInfo,
+  Divider,
 } from "./styles";
 
 export const Cart = () => {
+
+  const handleSubmit = (event: FormEvent)=>{
+    event.preventDefault()
+    
+  }
+
   return (
     <CartContainer>
-      <CartForm>
+      <CartForm onSubmit={handleSubmit}>
         <div>
           <h2>Complete seu pedido</h2>
           <FormSection>
@@ -30,10 +38,10 @@ export const Cart = () => {
             </div>
             </FormSectionTitle>
             <FormInputSection>
-              <InputTypeText name="cep" type="text" placeholder="CEP" />
-              <InputTypeTextFlex name="street" type="text" placeholder="Rua" />
+              <InputTypeText className='requiredField' name="cep" type="text" placeholder="CEP" required/>
+              <InputTypeTextFlex className='requiredField' name="street" type="text" placeholder="Rua" required/>
               <Info>
-                <InputTypeNumber name="number" type="number" placeholder="Número" />
+                <InputTypeNumber className='requiredField' name="number" type="number" placeholder="Número" required/>
                 <InputTypeTextFlex
                   name="complement"
                   type="text"
@@ -41,9 +49,9 @@ export const Cart = () => {
                 />
               </Info>
               <Info>
-                <InputTypeText name="neighbor" type="text" placeholder="Bairro" />
-                <InputTypeTextFlex name="city" type="text" placeholder="Cidade" />
-                <InputTypeTextSmall name="uf" type="text" placeholder="UF" />
+                <InputTypeText className='requiredField' name="neighbor" type="text" placeholder="Bairro" required/>
+                <InputTypeTextFlex className='requiredField' name="city" type="text" placeholder="Cidade" required/>
+                <InputTypeTextSmall className='requiredField' name="uf" type="text" placeholder="UF" required/>
               </Info>
             </FormInputSection>
           </FormSection>
@@ -58,15 +66,15 @@ export const Cart = () => {
             </div>
             </FormSectionTitle>
             <Info>
-              <button>
+              <button className='requiredField' type="button">
                 <CreditCard color="#8047F8"/>
                 cartão de crédito
               </button>
-              <button>
+              <button className='requiredField' type="button">
                 <Bank color="#8047F8" />
                 cartão de débito
               </button>
-              <button>
+              <button className='requiredField' type="button">
                 <Money color="#8047F8"/>
                 dinheiro
               </button>
@@ -77,8 +85,11 @@ export const Cart = () => {
           <h2>Cafés selecionados</h2>
           <CartItemBox>
             <CartItem/>
+            <hr/>
             <CartItem/>
+            <hr/>
             <CartItem/>
+            <hr/>
             <CartInfo>
             <div>
               <span>Total de itens</span> <span>R$29,70</span>
@@ -90,7 +101,7 @@ export const Cart = () => {
               <strong>Total</strong> <strong>R$ 33,20</strong>
             </div>
             </CartInfo>
-            <button>confirmar pedido</button>
+            <button type="submit" >confirmar pedido</button>
           </CartItemBox>
         </div>
       </CartForm>
