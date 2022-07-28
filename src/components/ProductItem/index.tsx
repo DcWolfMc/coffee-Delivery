@@ -1,12 +1,12 @@
 import { Minus, Plus, ShoppingCart } from "phosphor-react";
-import { FormEvent, FunctionComponent, useState } from "react";
-import { Coffees } from "../../utils/coffees";
+import { FormEvent, FunctionComponent, useContext, useState } from "react";
+import { CartContext } from "../../context/CartContext";
 import { InputNumberButton, InputNumberContainer, OrderForm, ProductItemContainer, Tags } from "./styles";
 interface ProductItemProps {
   image: string;
   name: string;
   tags: string[];
-  description: string;
+  description: string | undefined;
   price: number;
 }
 export const ProductItem: FunctionComponent<ProductItemProps> = ({
@@ -16,9 +16,25 @@ export const ProductItem: FunctionComponent<ProductItemProps> = ({
   description,
   price,
 }) => {
-  const [amount, setAmount] = useState<number>(0)
-  const handleSubmit = (event:FormEvent) =>{
+  const {addItemToCart} = useContext(CartContext)
+  const [amount, setAmount] = useState<number>(1);
+  const isDecreaseDisabled:boolean = (amount <= 1); 
+  function increaseAmount(){
+    setAmount((prev) => {return prev+1})
+  }
+  function decreaseAmount(){
+    setAmount((prev) => {return prev-1})
+    
+  }
+  function handleSubmit(event:FormEvent){
     event.preventDefault();
+    let product={
+      image: image,
+      name: name,
+      price: price,
+      amount: amount,
+    }
+    addItemToCart(product);
 
   }
   return (
@@ -37,9 +53,9 @@ export const ProductItem: FunctionComponent<ProductItemProps> = ({
           <b>{price.toFixed(2).toString().replace(".", ",")}</b>
         </span>
         <InputNumberContainer>
-          <InputNumberButton type="button"><Minus size={14} weight='bold' /></InputNumberButton>
+          <InputNumberButton type="button" onClick={decreaseAmount} disabled={isDecreaseDisabled}><Minus size={14} weight='bold' /></InputNumberButton>
           <span>{amount}</span >
-          <InputNumberButton type="button"> <Plus size={14} weight='bold'/></InputNumberButton>
+          <InputNumberButton type="button" onClick={increaseAmount}> <Plus size={14} weight='bold'/></InputNumberButton>
         </InputNumberContainer>
         <button type="submit">
           <ShoppingCart size={22} weight="fill" />

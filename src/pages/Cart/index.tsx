@@ -14,7 +14,6 @@ import {
   InputTypeTextFlex,
   InputTypeTextSmall,
   CartInfo,
-  Divider,
 } from "./styles";
 
 export const Cart = () => {

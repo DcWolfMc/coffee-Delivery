@@ -14,11 +14,12 @@ import Macchiato from '../assets/coffees/macchiato.svg'
 import Mochaccino from '../assets/coffees/mochaccino.svg'
 
 interface Coffee {
-    description: string;
+    description?: string;
     image: string;
     name: string;
     price: number
     tags?: string[];
+    amount?: number;
 }
 
 export const Coffees: Array<Coffee> = [

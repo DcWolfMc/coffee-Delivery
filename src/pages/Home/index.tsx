@@ -57,6 +57,7 @@ export const Home = () => {
         {Coffees.map((coffee) => {
           return (
             <ProductItem
+              key={coffee.image}
               description={coffee.description}
               image={coffee.image}
               name={coffee.name}

@@ -149,9 +149,13 @@ padding: 0.75rem;
  line-height: 1.3;
  background: ${props => props.theme["gray-400"]};
  color: ${props => props.theme["purple-500"]};
-:hover{
+:hover:not(:disabled){
     cursor: pointer;
     color: ${props => props.theme["purple-700"]};
+}
+:disabled{
+    cursor: not-allowed;
+    opacity: 50%;
 }
 
 `
