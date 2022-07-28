@@ -1,10 +1,6 @@
 import styled from "styled-components";
 
-interface RotationValue {
-    rotationValue: number;
-}
-
-export const ProductItemContainer = styled.div<RotationValue>`
+export const ProductItemContainer = styled.div`
 width: 16rem;
 
 display: flex;
@@ -19,17 +15,16 @@ background: ${props => props.theme["gray-200"]};
 
 @keyframes logo-spin {
         from {
-            transform: rotate(${props => props.rotationValue}deg );
+            transform: rotate(0);
         }
         to {
-            transform: rotate(calc(360deg + ${props => props.rotationValue}deg));
+            transform: rotate(360deg);
         }
     }
     
 img{
     position: relative;
     top: -20px;
-    transform: rotate(${props => props.rotationValue}deg);
     animation: logo-spin infinite 5s linear;
     animation-play-state: paused;
 }
