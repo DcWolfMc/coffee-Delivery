@@ -93,8 +93,3 @@ border-radius: 8px;
 
 
 `
-export const Divider = styled.div`
-width: 100%;
-border: 1px solid transparent;
-border-bottom: 1px solid ${props=>props.theme["gray-400"]};
-`

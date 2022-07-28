@@ -6,6 +6,17 @@ flex: 1;
 display: flex;
 flex-direction: column;
 gap: 3.5rem;
+
+.requiredField{
+    border: 1px solid ${props=>props.theme["red-500"]};
+}
+hr{
+    width: 100%;
+    border: 0px solid transparent;
+    box-shadow: none;
+    border-bottom: 2    px solid ${props=>props.theme["gray-400"]};
+}
+
 `
 export const CartForm = styled.form`
 display: flex;
