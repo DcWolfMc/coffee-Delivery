@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import InputMask from "react-input-mask";
 export const CartContainer = styled.main`
 padding: 10rem 10rem;
 flex: 1;
@@ -69,7 +68,7 @@ align-items: flex-start;
 padding: 0px;
 gap: 1rem;
 `
-const BaseInput = styled(InputMask)`
+const BaseInput = styled.input`
     display: flex;
     padding: 0.75rem;
     border: 1px solid transparent;

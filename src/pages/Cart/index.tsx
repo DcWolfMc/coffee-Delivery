@@ -4,9 +4,10 @@ import {
   CurrencyDollar,
   MapPinLine,
   Money,
+  Target,
 } from "phosphor-react";
 import { FormEvent, useState } from "react";
-import { useForm, } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { CartItem } from "../../components/CartItem";
 import {
@@ -23,33 +24,31 @@ import {
   InputTypeTextSmall,
   CartInfo,
 } from "./styles";
-interface formData{
+interface formData {
   cep: string;
   street: string;
   number: string;
-  complement?:string;
-  neighbor:string;
-  city:string;
-  uf:string;
-  payMethod: 'creditcard'|'debit'|'money'
+  complement?: string;
+  neighbor: string;
+  city: string;
+  uf: string;
+  payMethod: "creditcard" | "debit" | "money";
 }
 export const Cart = () => {
   const { register, handleSubmit, watch } = useForm<formData>();
-  const payMethod = watch('payMethod')
-  const payMethodIsEmpty = !payMethod
-
+  const payMethod = watch("payMethod");
+  const payMethodIsEmpty = !payMethod;
+  function maskCEP(value:string) {
+    return value.replace(/\D/g, "").replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
+  }
   function fetchCepInformation() {
     console.log("procurando dados ao desfocar input de CEP.");
   }
 
   function handleValidateFormInfo(data: any) {
     console.log(data);
-    
-  };
-  console.log(payMethodIsEmpty);
-  console.log(payMethod);
-  
-  
+  }
+
   return (
     <CartContainer>
       <CartForm onSubmit={handleSubmit(handleValidateFormInfo)}>
@@ -65,63 +64,65 @@ export const Cart = () => {
             </FormSectionTitle>
             <FormInputSection>
               <InputTypeText
-                className={`${!watch("cep")&& ("requiredField") }`}
-                mask="99999-999"
+                className={`${!watch("cep") && "requiredField"}`}
+                
                 type="text"
                 placeholder="CEP"
-                {...register('cep')}
+                {...register("cep",{onChange: (event)=>{
+                  const {value} = event.target
+                  event.target.value = maskCEP(value)
+                },})}
                 required
               />
               <InputTypeTextFlex
-                className={`${!watch("street")&& ("requiredField") }`}
+                className={`${!watch("street") && "requiredField"}`}
                 type="text"
-                mask={``}
-
+                
                 placeholder="Rua"
-                {...register('street')}
+                {...register("street")}
                 required
               />
               <Info>
                 <InputTypeNumber
-                  className={`${!watch("number")&& ("requiredField") }`}
+                  className={`${!watch("number") && "requiredField"}`}
                   type="number"
-                  mask={``}
+                  
                   placeholder="Número"
-                  {...register('number')}
+                  {...register("number")}
                   required
                 />
                 <InputTypeTextFlex
                   type="text"
-                  mask={``}
+                  
                   placeholder="Complemento"
-                  {...register('complement')}
+                  {...register("complement")}
                 />
               </Info>
               <Info>
                 <InputTypeText
-                  className={`${!watch("neighbor")&& ("requiredField") }`}
+                  className={`${!watch("neighbor") && "requiredField"}`}
                   type="text"
-                  mask={``}
+                  
                   placeholder="Bairro"
-                  {...register('neighbor')}
+                  {...register("neighbor")}
                   required
                 />
                 <InputTypeTextFlex
-                  className={`${!watch("city")&& ("requiredField") }`}
+                  className={`${!watch("city") && "requiredField"}`}
                   type="text"
-                  mask={``}
+                  
                   placeholder="Cidade"
-                  {...register('city')}
+                  {...register("city")}
                   required
                 />
                 <InputTypeTextSmall
-                  className={`${!watch("uf")&& ("requiredField") }`}
-                  style={{textAlign: "center", textTransform: "uppercase"}}
+                  className={`${!watch("uf") && "requiredField"}`}
+                  style={{ textAlign: "center", textTransform: "uppercase" }}
                   type="text"
-                  mask={``}
+                  
                   placeholder="UF"
                   maxLength={2}
-                  {...register('uf',{ maxLength: 2, })}
+                  {...register("uf", { maxLength: 2 })}
                   required
                 />
               </Info>
@@ -139,40 +140,50 @@ export const Cart = () => {
               </div>
             </FormSectionTitle>
             <Info>
-              
-              <label className={`${ payMethodIsEmpty&& ("requiredField") } ${payMethod === "creditcard" && "active"}`}>
-                <input  hidden type="radio" value='creditcard' id="creditCard" {...register('payMethod')}/>
-                <CreditCard color="#8047F8" /> cartão de crédito 
-                </label>
-              
-              
-              <label className={`${ payMethodIsEmpty&& ("requiredField") } ${payMethod === "debit"&& "active"}`}>
-                <input  hidden type="radio" value='debit'  id="debit" {...register('payMethod')}/>
-                <Bank color="#8047F8" /> cartão de débito 
-                </label>
-              
-              
-              <label className={`${ payMethodIsEmpty&& ("requiredField") } ${payMethod === "money"&& "active"}`}>
-                <input  hidden type="radio" value='money' id="money" {...register('payMethod')}/>
-                <Money color="#8047F8" /> dinheiro 
-                </label>
-              
-              {/*
-              <button className="requiredField" type="button" {...register('creditCard')} onClick={()=>{}}>
-                <CreditCard color="#8047F8" />
-                cartão de crédito
-              </button>
-              
-              <button className="requiredField" type="button" {...register('Debit')}>
-                <Bank color="#8047F8" />
-                cartão de débito
-              </button>
-              
-              <button className="requiredField" type="button" {...register('Money')}>
-                <Money color="#8047F8" />
-                dinheiro
-              </button>
-  */}
+              <label
+                className={`${payMethodIsEmpty && "requiredField"} ${
+                  payMethod === "creditcard" && "active"
+                }`}
+              >
+                <input
+                  hidden
+                  type="radio"
+                  value="creditcard"
+                  id="creditCard"
+                  {...register("payMethod")}
+                />
+                <CreditCard color="#8047F8" /> cartão de crédito
+              </label>
+
+              <label
+                className={`${payMethodIsEmpty && "requiredField"} ${
+                  payMethod === "debit" && "active"
+                }`}
+              >
+                <input
+                  hidden
+                  type="radio"
+                  value="debit"
+                  id="debit"
+                  {...register("payMethod")}
+                />
+                <Bank color="#8047F8" /> cartão de débito
+              </label>
+
+              <label
+                className={`${payMethodIsEmpty && "requiredField"} ${
+                  payMethod === "money" && "active"
+                }`}
+              >
+                <input
+                  hidden
+                  type="radio"
+                  value="money"
+                  id="money"
+                  {...register("payMethod")}
+                />
+                <Money color="#8047F8" /> dinheiro
+              </label>
             </Info>
           </FormSection>
         </div>
