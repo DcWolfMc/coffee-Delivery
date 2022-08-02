@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import InputMask from "react-input-mask";
 export const CartContainer = styled.main`
 padding: 10rem 10rem;
 flex: 1;
@@ -14,7 +14,8 @@ hr{
     width: 100%;
     border: 0px solid transparent;
     box-shadow: none;
-    border-bottom: 2    px solid ${props=>props.theme["gray-400"]};
+    border-bottom: 2px solid ${props=>props.theme["gray-400"]};
+    
 }
 
 `
@@ -68,7 +69,7 @@ align-items: flex-start;
 padding: 0px;
 gap: 1rem;
 `
-const BaseInput = styled.input`
+const BaseInput = styled(InputMask)`
     display: flex;
     padding: 0.75rem;
     border: 1px solid transparent;
@@ -101,7 +102,7 @@ export const Info = styled.div`
     display: flex;
     flex-direction: row;
     gap: 0.75rem;
-    button{
+    label{
         width: 11.5rem;
         display: flex;
         flex-direction: row;
@@ -119,14 +120,19 @@ export const Info = styled.div`
         background: ${props => props.theme["gray-400"]};
         border: 1px solid transparent;
         border-radius: 8px;
+
+        transition: ease-in-out 0.2s;
         :hover{
             background: ${props => props.theme['gray-500']};
+            cursor: pointer;
         }
-        .active{
+        
+    }
+    .active , .active:hover{
             background: ${props => props.theme['purple-300']};
             border: 1px solid  ${props => props.theme["purple-500"]};
+            
         }
-    }
 `
 const BaseBox = styled.div`
 display: flex;
