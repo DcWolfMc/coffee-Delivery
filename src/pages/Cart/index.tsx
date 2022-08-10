@@ -4,12 +4,12 @@ import {
   CurrencyDollar,
   MapPinLine,
   Money,
-  Target,
 } from "phosphor-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { CartItem } from "../../components/CartItem";
+import { CartContext } from "../../context/CartContext";
 import {
   CartContainer,
   FormSection,
@@ -35,9 +35,22 @@ interface formData {
   payMethod: "creditcard" | "debit" | "money";
 }
 export const Cart = () => {
+  const { cart } = useContext(CartContext)
+
   const { register, handleSubmit, watch } = useForm<formData>();
+  const [allItensValue, setAllItensValue] = useState<number>(0)
+  const isCartempty = cart.length <= 0;
   const payMethod = watch("payMethod");
   const payMethodIsEmpty = !payMethod;
+  
+  useEffect(()=>{
+      let totalCartItemsValue = 0
+      cart.forEach((item)=>{
+        totalCartItemsValue+=(item.price * item.amount)
+      })
+      setAllItensValue(totalCartItemsValue)
+  },[cart, isCartempty])
+   
   function maskCEP(value:string) {
     return value.replace(/\D/g, "").replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
   }
@@ -190,24 +203,24 @@ export const Cart = () => {
         <div>
           <h2>Cafés selecionados</h2>
           <CartItemBox>
-            <CartItem />
-            <hr />
-            <CartItem />
-            <hr />
-            <CartItem />
-            <hr />
+            {cart.map((item)=> {return (
+            <>
+              <CartItem key={item.name} name={item.name} />
+              <hr />
+            </>
+            )})}
             <CartInfo>
               <div>
-                <span>Total de itens</span> <span>R$29,70</span>
+                <span>Total de itens</span> <span>R${allItensValue.toFixed(2).replace('.',',')}</span>
               </div>
               <div>
                 <span>Entrega</span> <span>R$ 3,50</span>
               </div>
               <div>
-                <strong>Total</strong> <strong>R$ 33,20</strong>
+                <strong>Total</strong> <strong>R$ {(allItensValue+3.5).toFixed(2).replace('.',',')}</strong>
               </div>
             </CartInfo>
-            <button type="submit">confirmar pedido</button>
+            <button type="submit" disabled={isCartempty}>confirmar pedido</button>
           </CartItemBox>
         </div>
       </CartForm>

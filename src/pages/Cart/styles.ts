@@ -159,6 +159,14 @@ border-radius: 6px 44px;
 
     background-color: ${props=>props.theme["yellow-500"]};
     color: ${props=>props.theme.white};
+    :hover:not(:disabled){
+        background-color: ${props=>props.theme["yellow-700"]};
+        cursor: pointer;
+    }
+    :disabled{
+        cursor: not-allowed;
+        opacity: 50%;
+    }
 }
 `
 export const FormSection = styled(BaseBox)`

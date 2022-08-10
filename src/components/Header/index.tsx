@@ -27,16 +27,17 @@ export const Header = () => {
           <MapPin weight="fill" size={24} />
           <span>Fortaleza, CE</span>
         </LocationField>
-        <CartButton>
-          <Link to="/cart">
+        <Link to="/cart">
+          <CartButton>
             <ShoppingCart weight="fill" size={24} />
-          </Link>
+          
           {itemsInCart > 0 && (
             <Badge>
               {itemsInCart}
             </Badge>
           )}
-        </CartButton>
+          </CartButton>
+        </Link>
       </nav>
     </HeaderContainer>
   );

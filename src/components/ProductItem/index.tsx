@@ -34,6 +34,7 @@ export const ProductItem: FunctionComponent<ProductItemProps> = ({
       price: price,
       amount: amount,
     }
+    setAmount(1);
     addItemToCart(product);
 
   }

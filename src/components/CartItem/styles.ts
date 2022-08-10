@@ -17,6 +17,7 @@ gap: 3rem;
     }
 }
 >span{
+    width: 4rem;
     font-weight: bold;
 }
 
