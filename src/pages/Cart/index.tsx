@@ -1,3 +1,4 @@
+
 import {
   Bank,
   CreditCard,
@@ -10,6 +11,7 @@ import { useForm } from "react-hook-form";
 
 import { CartItem } from "../../components/CartItem";
 import { CartContext } from "../../context/CartContext";
+import { getCepInformation } from "../../services/api";
 import {
   CartContainer,
   FormSection,
@@ -25,36 +27,59 @@ import {
   CartInfo,
 } from "./styles";
 interface formData {
-  cep: string;
-  street: string;
-  number: string;
-  complement?: string;
-  neighbor: string;
-  city: string;
-  uf: string;
-  payMethod: "creditcard" | "debit" | "money";
+  
+    cep: string;
+    address: string;
+    number: string;
+    complement?: string;
+    neighbor: string;
+    city: string;
+    uf: string;
+    payMethod: "creditcard" | "debit" | "money"| "";
+  
 }
 export const Cart = () => {
   const { cart } = useContext(CartContext)
 
-  const { register, handleSubmit, watch } = useForm<formData>();
+  const { register, handleSubmit, watch, setValue } = useForm<formData>(
+    {defaultValues:{
+        cep: "",
+        city: "",
+        complement: "",
+        neighbor: "",
+        number: "",
+        payMethod: "",
+        address: "",
+        uf: "",
+      }
+    }
+  );
   const [allItensValue, setAllItensValue] = useState<number>(0)
   const isCartempty = cart.length <= 0;
   const payMethod = watch("payMethod");
+  const cep = watch('cep')
   const payMethodIsEmpty = !payMethod;
   
   useEffect(()=>{
-      let totalCartItemsValue = 0
-      cart.forEach((item)=>{
-        totalCartItemsValue+=(item.price * item.amount)
-      })
+     let totalCartItemsValue = cart.reduce((acc, item)=>{
+        return acc + (item.price * item.amount)
+      },0)
       setAllItensValue(totalCartItemsValue)
   },[cart, isCartempty])
    
   function maskCEP(value:string) {
     return value.replace(/\D/g, "").replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
   }
-  function fetchCepInformation() {
+  async function fetchCepInformation() {
+    console.log(cep);
+    await getCepInformation(cep)
+    .then((response)=>{
+      console.log(response);
+      setValue("city",response.data.localidade)
+      setValue("address",response.data.logradouro)
+      setValue("neighbor",response.data.bairro)
+      setValue("uf",response.data.uf)
+    })
     console.log("procurando dados ao desfocar input de CEP.");
   }
 
@@ -78,21 +103,20 @@ export const Cart = () => {
             <FormInputSection>
               <InputTypeText
                 className={`${!watch("cep") && "requiredField"}`}
-                
                 type="text"
                 placeholder="CEP"
                 {...register("cep",{onChange: (event)=>{
                   const {value} = event.target
                   event.target.value = maskCEP(value)
-                },})}
+                },onBlur:()=>fetchCepInformation()})}
                 required
               />
               <InputTypeTextFlex
-                className={`${!watch("street") && "requiredField"}`}
+                className={`${!watch("address") && "requiredField"}`}
                 type="text"
                 
                 placeholder="Rua"
-                {...register("street")}
+                {...register("address")}
                 required
               />
               <Info>

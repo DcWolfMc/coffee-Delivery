@@ -8,15 +8,6 @@ import { CartContext } from "../../context/CartContext";
 export const Header = () => {
   const { cart } = useContext(CartContext);
 
-  const [itemsInCart, setItemsInCart] = useState<number>(0);
-
-  useEffect(()=>{
-    if (cart.length) { 
-      let amountOfItems = 0;
-      cart.map((item)=>{return amountOfItems += item.amount})
-      setItemsInCart(amountOfItems)
-    }
-  },[cart])
   return (
     <HeaderContainer>
       <Link to={"/"}>
@@ -31,9 +22,9 @@ export const Header = () => {
           <CartButton>
             <ShoppingCart weight="fill" size={24} />
           
-          {itemsInCart > 0 && (
+          {cart.length > 0 && (
             <Badge>
-              {itemsInCart}
+              {cart.reduce((acc,product)=> {return acc+product.amount},0)}
             </Badge>
           )}
           </CartButton>
