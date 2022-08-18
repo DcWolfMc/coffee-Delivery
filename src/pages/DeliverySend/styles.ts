@@ -18,6 +18,9 @@ gap: 2.5rem;
         font-size: 1.25rem;
     }
 }
+a{
+    text-decoration: none;
+}
 `
 export const Content = styled.div`
 display: flex;
@@ -90,6 +93,7 @@ export const ReturnButton = styled.button`
     text-transform: uppercase;
     font-size: 0.875rem;
     line-height: 1.3;
+    
 
     background-color: ${props=>props.theme["yellow-500"]};
     color: ${props=>props.theme.white};

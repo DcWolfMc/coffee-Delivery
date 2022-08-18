@@ -6,8 +6,9 @@ import {
   MapPinLine,
   Money,
 } from "phosphor-react";
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import { CartItem } from "../../components/CartItem";
 import { CartContext } from "../../context/CartContext";
@@ -39,9 +40,9 @@ interface formData {
   
 }
 export const Cart = () => {
-  const { cart } = useContext(CartContext)
-
-  const { register, handleSubmit, watch, setValue } = useForm<formData>(
+  const { cart, confirmSalesOrder, emptyList } = useContext(CartContext)
+  const navigate = useNavigate();
+  const { register, handleSubmit, watch, setValue, getValues } = useForm<formData>(
     {defaultValues:{
         cep: "",
         city: "",
@@ -83,8 +84,13 @@ export const Cart = () => {
     console.log("procurando dados ao desfocar input de CEP.");
   }
 
-  function handleValidateFormInfo(data: any) {
-    console.log(data);
+  function handleValidateFormInfo() {
+    let formData = getValues()
+    confirmSalesOrder({ ...formData, totalItemValue:allItensValue, deliveryFee:3.5   })
+    emptyList()
+    console.log(getValues());
+    navigate('/deliverySend')
+    
   }
 
   return (
